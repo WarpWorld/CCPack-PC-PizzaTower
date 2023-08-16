@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Text;
-using AsmJit.Common.Operands;
-using ConnectorLib;
-using ConnectorLib.Inject;
 using ConnectorLib.Inject.AddressChaining;
-using ConnectorLib.Inject.CSharpExtensions;
 using ConnectorLib.Inject.Payload.DirectX;
 using ConnectorLib.Inject.VersionProfiles;
-using ConnectorLib.Inject.VersionProfiles.Verification;
 using CrowdControl.Common;
 using JetBrains.Annotations;
-using System.Runtime.InteropServices;
 using ConnectorType = CrowdControl.Common.ConnectorType;
 
 namespace CrowdControl.Games.Packs
