@@ -16,10 +16,10 @@ namespace CrowdControl.Games.Packs
     {
         public PizzaTower([NotNull] UserRecord player, [NotNull] Func<CrowdControlBlock, bool> responseHandler,Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler)
         {
-            VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitCrashBandicootNSaneTrilogy, DeinitCrashBandicootNSaneTrilogy, null, Direct3DVersion.None), };
+            VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitPizzaTower, DeinitPizzaTower, null, Direct3DVersion.None), };
         }
         private AddressChain _chain_thing;
-        private void InitCrashBandicootNSaneTrilogy()
+        private void InitPizzaTower()
         {
             byte[] p = { 0x5f, 0x63, 0x63, 0x6d, 0x61, 0x67, 0x69, 0x63, 0x68, 0x6f, 0x6f, 0x6b };
             _chain_thing = AddressChain
@@ -28,7 +28,7 @@ namespace CrowdControl.Games.Packs
 
         }
 
-        private void DeinitCrashBandicootNSaneTrilogy()
+        private void DeinitPizzaTower()
         {
         }
 
@@ -73,11 +73,13 @@ namespace CrowdControl.Games.Packs
             }
         }
 
-        public override Game Game => new(139, "PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
+        public override Game Game => new(139, "PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);        
+
         protected override bool IsReady(EffectRequest request)
         {
-            string joe = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-            string x = System.IO.File.ReadAllText(joe);
+            string queueFile => Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+            //string queueFile = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+            string x = System.IO.File.ReadAllText(queueFile);
             if (x.Contains("noruneffect")) return false;
             if (request.EffectID[0] == 's' && x.Contains("insecret")) return false;
             if (request.EffectID[0] == 'g' && x.Contains("nogun")) return false;
