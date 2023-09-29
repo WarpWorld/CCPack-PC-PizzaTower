@@ -77,7 +77,7 @@ namespace CrowdControl.Games.Packs
 
         protected override bool IsReady(EffectRequest request)
         {
-            string queueFile => Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+            string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
             //string queueFile = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
             string x = System.IO.File.ReadAllText(queueFile);
             if (x.Contains("noruneffect")) return false;
