@@ -7,38 +7,37 @@ using CrowdControl.Common;
 using JetBrains.Annotations;
 using ConnectorType = CrowdControl.Common.ConnectorType;
 
-namespace CrowdControl.Games.Packs
+namespace CrowdControl.Games.Packs;
+
+// //ccpragma { "include" : [ "..\\Windows10\\SimpleOverlayManager.cs" ] }
+[UsedImplicitly]
+public class PizzaTower : InjectEffectPack
 {
-
-    // //ccpragma { "include" : [ "..\\Windows10\\SimpleOverlayManager.cs" ] }
-    [UsedImplicitly]
-    public class PizzaTower : InjectEffectPack
+    public PizzaTower([NotNull] UserRecord player, [NotNull] Func<CrowdControlBlock, bool> responseHandler,Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler)
     {
-        public PizzaTower([NotNull] UserRecord player, [NotNull] Func<CrowdControlBlock, bool> responseHandler,Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler)
-        {
-            VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitPizzaTower, DeinitPizzaTower, null, Direct3DVersion.None), };
-        }
-        private AddressChain _chain_thing;
-        private void InitPizzaTower()
-        {
-            byte[] p = { 0x5f, 0x63, 0x63, 0x6d, 0x61, 0x67, 0x69, 0x63, 0x68, 0x6f, 0x6f, 0x6b };
-            _chain_thing = AddressChain
-                .AOB(this.Connector, 0, p, "xxxxxxxxxxxx", -255, 0, 0x017F50FF).Cache()
-                .PreCache();
+        VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitPizzaTower, DeinitPizzaTower, null, Direct3DVersion.None), };
+    }
+    private AddressChain _chain_thing;
+    private void InitPizzaTower()
+    {
+        byte[] p = { 0x5f, 0x63, 0x63, 0x6d, 0x61, 0x67, 0x69, 0x63, 0x68, 0x6f, 0x6f, 0x6b };
+        _chain_thing = AddressChain
+            .AOB(this.Connector, 0, p, "xxxxxxxxxxxx", -255, 0, 0x017F50FF).Cache()
+            .PreCache();
 
-        }
+    }
 
-        private void DeinitPizzaTower()
-        {
-        }
+    private void DeinitPizzaTower()
+    {
+    }
 
-        public override EffectList Effects
+    public override EffectList Effects
+    {
+        get
         {
-            get
-            {
-                //new Effect("Peppino Outfit", "outfit", ItemKind.BidWar),
-                //new Effect("Blood Red", "outfit_red", ItemKind.BidWarValue, "outfit"),
-                List<Effect> effects = new List<Effect>{
+            //new Effect("Peppino Outfit", "outfit", ItemKind.BidWar),
+            //new Effect("Blood Red", "outfit_red", ItemKind.BidWarValue, "outfit"),
+            List<Effect> effects = new List<Effect>{
                 new("Mighty Knight", "t_0"){Duration=10},
                 new("Pizza Face", "_1"){Duration=5},
                 //new Effect("Turn Around", "_2"),
@@ -67,49 +66,49 @@ namespace CrowdControl.Games.Packs
                 new("Add Lap", "_22"),
                 new("Add Lap Deluxe", "_23"),
                 new("Elite Enemies", "_24_hold"){Duration=30},
-               // new Effect("Reset (test)", "_25"),
-                        };
-                return effects;
-            }
+                // new Effect("Reset (test)", "_25"),
+            };
+            return effects;
         }
+    }
 
-        public override Game Game => new(139, "PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);        
+    public override Game Game => new(139, "PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);        
 
-        protected override bool IsReady(EffectRequest request)
+    protected override bool IsReady(EffectRequest request)
+    {
+        string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+        //string queueFile = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+        string x = System.IO.File.ReadAllText(queueFile);
+        if (x.Contains("noruneffect")) return false;
+        if (request.EffectID[0] == 's' && x.Contains("insecret")) return false;
+        if (request.EffectID[0] == 'g' && x.Contains("nogun")) return false;
+        return true;
+    }
+    //protected override void RequestData(DataRequest request) => Respond(request, request.Key, null, false, $"Variable name \"{request.Key}\" not known");
+    protected override void StartEffect(EffectRequest request)
+    {
+        if (!IsReady(request))
         {
-            string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-            //string queueFile = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-            string x = System.IO.File.ReadAllText(queueFile);
-            if (x.Contains("noruneffect")) return false;
-            if (request.EffectID[0] == 's' && x.Contains("insecret")) return false;
-            if (request.EffectID[0] == 'g' && x.Contains("nogun")) return false;
-            return true;
+            DelayEffect(request, TimeSpan.FromSeconds(5));
+            return;
         }
-        //protected override void RequestData(DataRequest request) => Respond(request, request.Key, null, false, $"Variable name \"{request.Key}\" not known");
-        protected override void StartEffect(EffectRequest request)
+        string[] codeParams = request.EffectID.Split('_');
+        string s = request.EffectID;
+        if (codeParams[0].Length > 0) s = codeParams[0];
+        if (request.Duration <= 1) request.Duration = 1;
+        if (request.Duration > 0 || true)
         {
-            if (!IsReady(request))
+            StartTimed(request, () => true, () =>
             {
-                DelayEffect(request, TimeSpan.FromSeconds(5));
-                return;
-            }
-            string[] codeParams = request.EffectID.Split('_');
-            string s = request.EffectID;
-            if (codeParams[0].Length > 0) s = codeParams[0];
-            if (request.Duration <= 1) request.Duration = 1;
-            if (request.Duration > 0 || true)
-            {
-                StartTimed(request, () => true, () =>
+                if (codeParams.Length == 3)
                 {
-                    if (codeParams.Length == 3)
-                    {
-                        _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(72);
-                    }
-                    else
-                        _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(48);
-                    return true;
-                }, s);
-            } /*else
+                    _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(72);
+                }
+                else
+                    _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(48);
+                return true;
+            }, s);
+        } /*else
             {
                 TryEffect(request, () => true, () =>
                 {
@@ -122,26 +121,25 @@ namespace CrowdControl.Games.Packs
                     return true;
                 });
             }*/
-        }
+    }
 
-        protected override bool StopEffect(EffectRequest request)
+    protected override bool StopEffect(EffectRequest request)
+    {
+        if (!base.StopEffect(request))
+            return false;
+        if (!IsReady(request))
         {
-            if (!base.StopEffect(request))
-                return false;
-            if (!IsReady(request))
-            {
-                DelayEffect(request, TimeSpan.FromSeconds(5));
-                return false;
-            }
-            string[] codeParams = request.EffectID.Split('_');
-            _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
-            return true;
+            DelayEffect(request, TimeSpan.FromSeconds(5));
+            return false;
         }
+        string[] codeParams = request.EffectID.Split('_');
+        _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
+        return true;
+    }
 
-        public override bool StopAllEffects()
-        {
-            bool result = base.StopAllEffects();
-            return result;
-        }
+    public override bool StopAllEffects()
+    {
+        bool result = base.StopAllEffects();
+        return result;
     }
 }
