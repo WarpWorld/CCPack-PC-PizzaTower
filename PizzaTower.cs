@@ -7,7 +7,7 @@ using CrowdControl.Common;
 using JetBrains.Annotations;
 using ConnectorType = CrowdControl.Common.ConnectorType;
 
-namespace CrowdControl.Games.Packs;
+namespace CrowdControl.Games.Packs.PizzaTower;
 
 // //ccpragma { "include" : [ "..\\Windows10\\SimpleOverlayManager.cs" ] }
 [UsedImplicitly]
