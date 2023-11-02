@@ -66,7 +66,7 @@ public class PizzaTower : InjectEffectPack
                 new("Add Lap", "_22"){Category = "Laps", Price = 350, Description = "Add a lap!"},
                 new("Add Lap Deluxe", "_23"){Category = "Laps", Price = 500, Description = "???"},
                 new("Elite Enemies", "_24_hold"){Duration=30, Category = "Enemies", Price = 150, Description = "Temporarily make enemies stronger! Meaning they take more damage to kill and may not be easily grabbed!"},
-                // new Effect("Reset (test)", "_25"),
+                //new Effect("Reset (test)", "_25"),
             };
             return effects;
         }
@@ -76,9 +76,16 @@ public class PizzaTower : InjectEffectPack
 
     protected override bool IsReady(EffectRequest request)
     {
-        string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-        //string queueFile = "C:\\Users\\mrbro\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-        string x = System.IO.File.ReadAllText(queueFile);
+        string x;
+        try
+        {
+            string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+            x = System.IO.File.ReadAllText(queueFile);
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
         if (x.Contains("noruneffect")) return false;
         if (request.EffectID[0] == 's' && x.Contains("insecret")) return false;
         if (request.EffectID[0] == 'g' && x.Contains("nogun")) return false;
@@ -108,30 +115,18 @@ public class PizzaTower : InjectEffectPack
                     _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(48);
                 return true;
             }, s);
-        } /*else
-            {
-                TryEffect(request, () => true, () =>
-                {
-                    if (_chain_thing.Offset(byte.Parse(codeParams[1])).GetByte() != 95)
-                    {
-                        _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
-                        return false;
-                    }
-                    _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(48);
-                    return true;
-                });
-            }*/
+        }
     }
 
     protected override bool StopEffect(EffectRequest request)
     {
         if (!base.StopEffect(request))
             return false;
-        if (!IsReady(request))
+        /*if (!IsReady(request))
         {
             DelayEffect(request, TimeSpan.FromSeconds(5));
             return false;
-        }
+        }*/
         string[] codeParams = request.EffectID.Split('_');
         _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
         return true;
