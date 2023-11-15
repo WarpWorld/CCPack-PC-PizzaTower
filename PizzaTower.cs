@@ -96,7 +96,7 @@ public class PizzaTower : InjectEffectPack
     {
         if (!IsReady(request))
         {
-            DelayEffect(request, TimeSpan.FromSeconds(5));
+            DelayEffect(request);
             return;
         }
         string[] codeParams = request.EffectID.Split('_');
@@ -124,7 +124,7 @@ public class PizzaTower : InjectEffectPack
             return false;
         /*if (!IsReady(request))
         {
-            DelayEffect(request, TimeSpan.FromSeconds(5));
+            DelayEffect(request);
             return false;
         }*/
         string[] codeParams = request.EffectID.Split('_');
