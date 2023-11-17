@@ -15,7 +15,7 @@ public class PizzaTower : InjectEffectPack
 {
     public PizzaTower([NotNull] UserRecord player, [NotNull] Func<CrowdControlBlock, bool> responseHandler,Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler)
     {
-        VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitPizzaTower, DeinitPizzaTower, null, Direct3DVersion.None), };
+        VersionProfiles = new List<VersionProfile> { new("PizzaTower", InitPizzaTower, DeinitPizzaTower) };
     }
     private AddressChain _chain_thing;
     private void InitPizzaTower()
