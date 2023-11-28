@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConnectorLib.Inject.AddressChaining;
-using ConnectorLib.Inject.Payload.DirectX;
 using ConnectorLib.Inject.VersionProfiles;
 using CrowdControl.Common;
 using JetBrains.Annotations;
