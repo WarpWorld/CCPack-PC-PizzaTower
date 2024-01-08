@@ -73,7 +73,7 @@ public class PizzaTower : InjectEffectPack
 
     public override Game Game => new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);        
 
-    protected override bool IsReady(EffectRequest request)
+    protected override bool IsReady(EffectRequest? request)
     {
         string x;
         try
