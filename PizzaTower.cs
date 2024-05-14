@@ -207,16 +207,14 @@ public class PizzaTower : InjectEffectPack
 
     protected override bool StopEffect(EffectRequest request)
     {
-        if (!base.StopEffect(request))
-            return false;
-        /*if (!IsReady(request))
+        //bad but whatever - kat
+        try
         {
-            DelayEffect(request);
-            return false;
-        }*/
-        string[] codeParams = request.EffectID.Split('_');
-        _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
-        return true;
+            string[] codeParams = request.EffectID.Split('_');
+            _chain_thing.Offset(byte.Parse(codeParams[1])).SetByte(95);
+            return true;
+        }
+        catch { return base.StopEffect(request); }
     }
 
     public override bool StopAllEffects()
