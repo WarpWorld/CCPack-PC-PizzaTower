@@ -180,13 +180,7 @@ public class PizzaTower : InjectEffectPack
     }
     //protected override void RequestData(DataRequest request) => Respond(request, request.Key, null, false, $"Variable name \"{request.Key}\" not known");
     protected override void StartEffect(EffectRequest request)
-    {
-        if (!IsReady(request))
-        {
-            DelayEffect(request);
-            return;
-        }
-        string[] codeParams = request.EffectID.Split('_');
+    {ring[] codeParams = request.EffectID.Split('_');
         string s = request.EffectID;
         if (codeParams[0].Length > 0) s = codeParams[0];
         if (request.Duration <= 1) request.Duration = 1;
