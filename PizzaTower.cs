@@ -159,26 +159,23 @@ public class PizzaTower : InjectEffectPack
         }
     }
 
-    public override Game Game => new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);        
-
+    public override Game Game => new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
+    
     protected override bool IsReady(EffectRequest? request)
     {
         string x;
         try
         {
             string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
-            x = System.IO.File.ReadAllText(queueFile);
+            x = File.ReadAllText(queueFile);
         }
-        catch (Exception ex)
-        {
-            return false;
-        }
+        catch { return false; }
         if (x.Contains("noruneffect")) return false;
         if (request.EffectID[0] == 's' && x.Contains("insecret")) return false;
         if (request.EffectID[0] == 'g' && x.Contains("nogun")) return false;
         return true;
     }
-    //protected override void RequestData(DataRequest request) => Respond(request, request.Key, null, false, $"Variable name \"{request.Key}\" not known");
+    
     protected override void StartEffect(EffectRequest request)
     {
         string[] codeParams = request.EffectID.Split('_');
