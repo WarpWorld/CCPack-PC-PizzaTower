@@ -160,7 +160,20 @@ public class PizzaTower : InjectEffectPack
     }
 
     public override Game Game => new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
-    
+
+    protected override GameState GetGameState()
+    {
+        string x;
+        try
+        {
+            string queueFile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\AppData\\Roaming\\PizzaTower_GM2\\ccout.txt";
+            x = File.ReadAllText(queueFile);
+        }
+        catch { return GameState.Unknown; }
+        if (x.Contains("noruneffect")) return GameState.PipelineBusy;
+        return GameState.Ready;
+    }
+
     protected override bool IsReady(EffectRequest? request)
     {
         string x;
