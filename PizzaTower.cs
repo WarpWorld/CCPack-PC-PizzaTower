@@ -159,7 +159,7 @@ public class PizzaTower : InjectEffectPack
         }
     }
 
-    public override Game Game => new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
+    public override Game Game { get; } = new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
 
     protected override GameState GetGameState()
     {
