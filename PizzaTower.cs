@@ -1,6 +1,6 @@
-﻿using ConnectorLib.Inject.AddressChaining;
-using CrowdControl.Common;
+﻿using CrowdControl.Common;
 using JetBrains.Annotations;
+using AddressChain = ConnectorLib.Memory.AddressChain<ConnectorLib.Inject.InjectConnector>;
 using ConnectorType = CrowdControl.Common.ConnectorType;
 
 namespace CrowdControl.Games.Packs.PizzaTower;
