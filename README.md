@@ -1,5 +1,11 @@
 # Pizza Tower
 
+## Pack metadata
+
+- **Game:** PizzaTower
+- **Crowd Control game ID:** `PizzaTower`
+- **Connector:** `PCConnector`
+
 This folder contains the C# Crowd Control pack definition and patch artifacts for **Pizza Tower**.
 
 ## Connector and setup
