@@ -27,14 +27,10 @@ public class PizzaTower : InjectEffectPack
     {
     }
 
-    public override EffectList Effects
-    {
-        get
-        {
+    public override EffectList Effects { get; } =
             //new Effect("Peppino Outfit", "outfit", ItemKind.BidWar),
             //new Effect("Blood Red", "outfit_red", ItemKind.BidWarValue, "outfit"),
-            List<Effect> effects =
-            [
+            new List<Effect>([
                 new("Mighty Knight", "t_0")
                 {
                     Duration = 10, Category = "Peppino Effects", Price = 25,
@@ -154,10 +150,9 @@ public class PizzaTower : InjectEffectPack
                         "Temporarily make enemies stronger! Meaning they take more damage to kill and may not be easily grabbed!"
                 }
                 //new Effect("Reset (test)", "_25"),
-            ];
-            return effects;
-        }
-    }
+            ]);
+
+
 
     public override Game Game { get; } = new("PizzaTower", "PizzaTower", "PC", ConnectorType.PCConnector);
 
